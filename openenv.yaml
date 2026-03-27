@@ -1,0 +1,28 @@
+name: email-triage-openenv
+version: 1.0.0
+task_type: real_world_workflow
+description: |
+  A realistic customer support email triage environment where an agent must
+  classify incoming emails, assign priority, draft safe replies, and close
+  tickets. Includes deterministic graders for three increasing difficulty tasks.
+entrypoint:
+  module: openenv_email_triage.api
+  app: app
+interface:
+  observation_model: Observation
+  action_model: Action
+  reward_model: Reward
+  endpoints:
+    reset: POST /reset
+    step: POST /step
+    state: GET /state
+tasks:
+  - id: easy
+    difficulty: easy
+  - id: medium
+    difficulty: medium
+  - id: hard
+    difficulty: hard
+validation:
+  deterministic: true
+  score_range: [0.0, 1.0]
